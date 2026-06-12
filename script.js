@@ -1,10 +1,11 @@
-[];
 
-let comments = 
+let comments =
+JSON.parse(localStorage.getItem("comments")) || [];
+
 function addComment() {
 
     const text =
-        document.getElementById("commentInput").value;
+    document.getElementById("commentInput").value.trim();
 
     if (text === "") {
         alert("Enter a comment");
@@ -17,13 +18,25 @@ function addComment() {
         dislikes: 0
     });
 
+    localStorage.setItem(
+        "comments",
+        JSON.stringify(comments)
+    );
+
     displayComments();
 
     document.getElementById("commentInput").value = "";
 }
 
 function likeComment(index) {
+
     comments[index].likes++;
+
+    localStorage.setItem(
+        "comments",
+        JSON.stringify(comments)
+    );
+
     displayComments();
 }
 
@@ -34,6 +47,11 @@ function dislikeComment(index) {
     if (comments[index].dislikes >= 2) {
         comments.splice(index, 1);
     }
+
+    localStorage.setItem(
+        "comments",
+        JSON.stringify(comments)
+    );
 
     displayComments();
 }
@@ -46,7 +64,6 @@ function displayComments() {
 
         html += `
         <div class="comment">
-
             <p>${comment.text}</p>
 
             <button onclick="likeComment(${index})">
@@ -56,7 +73,6 @@ function displayComments() {
             <button onclick="dislikeComment(${index})">
                 👎 ${comment.dislikes}
             </button>
-
         </div>
         `;
     });
@@ -66,22 +82,7 @@ function displayComments() {
 
 
 let isPremium =
-    localStorage.getItem("premium") === "true";
-
-window.onload = function () {
-
-    if (isPremium) {
-
-        const status =
-            document.getElementById("premiumStatus");
-
-        if (status) {
-            status.innerText = "⭐ Premium User";
-        }
-    }
-
-    showDownloads();
-};
+localStorage.getItem("premium") === "true";
 
 function buyPremium() {
 
@@ -89,34 +90,29 @@ function buyPremium() {
 
     isPremium = true;
 
-    const status =
-        document.getElementById("premiumStatus");
-
-    if (status) {
-        status.innerText = "⭐ Premium User";
-    }
+    document.getElementById("premiumStatus").innerText =
+    "⭐ Premium User";
 
     alert("🎉 Premium Activated Successfully!");
 }
+
+// =========================
+// VIDEO DOWNLOADER
+// =========================
 
 function downloadVideo() {
 
     let today = new Date().toDateString();
 
     let lastDay =
-        localStorage.getItem("downloadDay");
+    localStorage.getItem("downloadDay");
 
     let count =
-        parseInt(localStorage.getItem("downloadCount")) || 0;
+    parseInt(localStorage.getItem("downloadCount")) || 0;
 
     if (lastDay !== today) {
-
         count = 0;
-
-        localStorage.setItem(
-            "downloadDay",
-            today
-        );
+        localStorage.setItem("downloadDay", today);
     }
 
     if (!isPremium && count >= 1) {
@@ -136,9 +132,9 @@ function downloadVideo() {
     );
 
     let downloads =
-        JSON.parse(
-            localStorage.getItem("downloads")
-        ) || [];
+    JSON.parse(
+        localStorage.getItem("downloads")
+    ) || [];
 
     downloads.push(
         "Video Downloaded - " +
@@ -152,30 +148,41 @@ function downloadVideo() {
 
     showDownloads();
 
-    // Demo download
     alert("✅ Video Downloaded Successfully!");
 }
 
 function showDownloads() {
 
     let downloads =
-        JSON.parse(
-            localStorage.getItem("downloads")
-        ) || [];
+    JSON.parse(
+        localStorage.getItem("downloads")
+    ) || [];
 
     let html = "";
 
     downloads.forEach(item => {
-
-        html += `
-        <li>${item}</li>
-        `;
+        html += `<li>${item}</li>`;
     });
 
-    const list =
-        document.getElementById("downloadsList");
-
-    if (list) {
-        list.innerHTML = html;
-    }
+    document.getElementById(
+        "downloadsList"
+    ).innerHTML = html;
 }
+
+
+window.onload = function () {
+
+    displayComments();
+
+    showDownloads();
+
+    if (
+        localStorage.getItem("premium") === "true"
+    ) {
+
+        document.getElementById(
+            "premiumStatus"
+        ).innerText = "⭐ Premium User";
+    }
+};
+
