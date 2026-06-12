@@ -185,4 +185,4 @@ window.onload = function () {
         ).innerText = "⭐ Premium User";
     }
 };
-console.log("script loaded sucessfully");
+console.log("Script Loaded Sucessfully");
