@@ -112,13 +112,11 @@ function downloadVideo() {
   window.open("sample.mp4");
 }
 function buyPremium() {
-    localStorage.setItem("premium", "true");
+    alert("Premium Activated Successfully!");
 
-    isPremium = true;
+    const status = document.getElementById("premiumStatus");
 
-    document.getElementById("premiumStatus").innerText =
-        "⭐ Premium User";
-
-    alert("🎉 Premium Activated Successfully!");
+    if (status) {
+        status.innerText = "⭐ Premium User";
+    }
 }
-
