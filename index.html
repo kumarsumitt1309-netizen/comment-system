@@ -1,54 +1,62 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Inclusive Comment System</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comment System + Video Downloader</title>
+
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="container">
+    <div class="container">
 
-<h1>Inclusive Comment System</h1>
+        <h1>Comment System</h1>
 
-<textarea id="commentInput" placeholder="Write your comment..."></textarea>
+        <textarea
+            id="commentInput"
+            placeholder="Write your comment..."
+            rows="4"
+            cols="50"></textarea>
 
-<br>
+        <br><br>
 
-<button onclick="addComment()">Post Comment</button>
+        <button onclick="addComment()">
+            Post Comment
+        </button>
 
-<div id="comments"></div>
+        <div id="comments"></div>
 
-</div>
+        <hr>
 
-<script src="script.js"></script>
-<h2>Video Downloader</h2>
+        <h1>Video Downloader</h1>
 
-<video width="500" controls>
-  <source src="sample.mp4" type="video/mp4">
-</video>
+        <video width="500" controls>
+            <source src="sample.mp4" type="video/mp4">
+            Your browser does not support video.
+        </video>
 
-<br><br>
+        <br><br>
 
-<button onclick="downloadVideo()">Download Video</button>
+        <button onclick="downloadVideo()">
+            Download Video
+        </button>
 
-<button onclick="buyPremium()">Upgrade Premium</button>
+        <button onclick="buyPremium()">
+            Upgrade Premium
+        </button>
 
-<h3>My Downloads</h3>
-<ul id="downloadsList"></ul>
+        <p id="premiumStatus">
+            Free User
+        </p>
 
-<h3>My Downloads</h3>
-<ul id="downloadsList"></ul>
+        <h3>My Downloads</h3>
 
-<script src="script.js"></script>
-<h3>My Download</h3>
-<ul id="downloadsList"></ul>
+        <ul id="downloadsList"></ul>
 
-<script src="script.js"></script>
+    </div>
 
-</body>
-</html>
+    <script src="script.js"></script>
 
 </body>
 </html>
