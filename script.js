@@ -111,48 +111,14 @@ function downloadVideo() {
 
   window.open("sample.mp4");
 }
+function buyPremium() {
+    localStorage.setItem("premium", "true");
 
-function showDownloads(){
+    isPremium = true;
 
- let downloads =
- JSON.parse(localStorage.getItem("downloads")) || [];
+    document.getElementById("premiumStatus").innerText =
+        "⭐ Premium User";
 
- let html="";
-
- downloads.forEach(item=>{
-   html += `<li>${item}</li>`;
- });
-
- document.getElementById("downloadsList").innerHTML = html;
+    alert("🎉 Premium Activated Successfully!");
 }
 
-function buyPremium(){
-
- const options = {
-   key:"rzp_test_YourKeyHere",
-   amount:99900,
-   currency:"INR",
-   name:"Premium Plan",
-
-   handler:function(response){
-
-      localStorage.setItem(
-       "premium",
-       "true"
-      );
-
-      isPremium = true;
-
-      alert(
-       "Premium Activated! Unlimited Downloads Enabled."
-      );
-   }
- };
-
- const rzp =
- new Razorpay(options);
-
- rzp.open();
-}
-
-showDownloads();
