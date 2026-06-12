@@ -23,6 +23,21 @@
 </div>
 
 <script src="script.js"></script>
+<h2>Video Downloader</h2>
 
+<video width="500" controls>
+  <source src="sample.mp4" type="video/mp4">
+</video>
+
+<br><br>
+
+<button onclick="downloadVideo()">Download Video</button>
+
+<button onclick="buyPremium()">Upgrade Premium</button>
+
+<h3>My Downloads</h3>
+<ul id="downloadsList"></ul>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </body>
 </html>
