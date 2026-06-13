@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Comment System</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>🎥 Video Comment System</h1>
+
+    <!-- Video Section -->
+    <video id="videoPlayer" controls>
+        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+        Your browser does not support video.
+    </video>
+
+    <hr>
+
+    <!-- Subscription Plans -->
+    <h2>Subscription Plans</h2>
+
+    <button onclick="upgradePlan('Bronze',10,7)">
+        Bronze ₹10
+    </button>
+
+    <button onclick="upgradePlan('Silver',50,10)">
+        Silver ₹50
+    </button>
+
+    <button onclick="upgradePlan('Gold',100,-1)">
+        Gold ₹100
+    </button>
+
+    <p id="premiumStatus">
+        Current Plan: Free (5 Minutes)
+    </p>
+
+    <hr>
+
+    <!-- Region Authentication -->
+    <h2>Region Authentication</h2>
+
+    <input
+        type="text"
+        id="stateInput"
+        placeholder="Enter State Name">
+
+    <button onclick="verifyRegion()">
+        Verify Login
+    </button>
+
+    <p id="authResult"></p>
+
+    <hr>
+
+    <!-- Comment Section -->
+    <h2>Comments</h2>
+
+    <input
+        type="text"
+        id="username"
+        placeholder="Enter your name">
+
+    <br><br>
+
+    <textarea
+        id="commentInput"
+        placeholder="Write your comment">
+    </textarea>
+
+    <br><br>
+
+    <button onclick="addComment()">
+        Post Comment
+    </button>
+
+    <div id="comments"></div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
