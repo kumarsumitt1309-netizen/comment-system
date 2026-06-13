@@ -1,21 +1,30 @@
-
 let comments =
 JSON.parse(localStorage.getItem("comments")) || [];
 
-function addComment() {
+let isPremium =
+localStorage.getItem("premium") === "true";
+
+// Comment System
+
+function addComment(){
+
+    const username =
+    document.getElementById("username").value.trim();
 
     const text =
     document.getElementById("commentInput").value.trim();
 
-    if (text === "") {
-        alert("Enter a comment");
+    if(username === "" || text === ""){
+        alert("Enter name and comment");
         return;
     }
 
     comments.push({
-        text: text,
-        likes: 0,
-        dislikes: 0
+        username,
+        text,
+        likes:0,
+        dislikes:0,
+        date:new Date().toLocaleString()
     });
 
     localStorage.setItem(
@@ -25,10 +34,47 @@ function addComment() {
 
     displayComments();
 
-    document.getElementById("commentInput").value = "";
+    document.getElementById("commentInput").value="";
 }
 
-function likeComment(index) {
+function displayComments(){
+
+    let html="";
+
+    comments.forEach((comment,index)=>{
+
+        html += `
+        <div class="comment">
+
+            <h4>${comment.username}</h4>
+
+            <p>${comment.text}</p>
+
+            <small>${comment.date}</small>
+
+            <br><br>
+
+            <button onclick="likeComment(${index})">
+                👍 ${comment.likes}
+            </button>
+
+            <button onclick="dislikeComment(${index})">
+                👎 ${comment.dislikes}
+            </button>
+
+            <button onclick="deleteComment(${index})">
+                🗑 Delete
+            </button>
+
+        </div>
+        `;
+    });
+
+    document.getElementById("comments").innerHTML =
+    html;
+}
+
+function likeComment(index){
 
     comments[index].likes++;
 
@@ -40,12 +86,12 @@ function likeComment(index) {
     displayComments();
 }
 
-function dislikeComment(index) {
+function dislikeComment(index){
 
     comments[index].dislikes++;
 
-    if (comments[index].dislikes >= 2) {
-        comments.splice(index, 1);
+    if(comments[index].dislikes >= 2){
+        comments.splice(index,1);
     }
 
     localStorage.setItem(
@@ -56,88 +102,46 @@ function dislikeComment(index) {
     displayComments();
 }
 
-function displayComments() {
+function deleteComment(index){
 
-    let html = "";
+    comments.splice(index,1);
 
-    comments.forEach((comment, index) => {
+    localStorage.setItem(
+        "comments",
+        JSON.stringify(comments)
+    );
 
-        html += `
-        <div class="comment">
-            <p>${comment.text}</p>
-
-            <button onclick="likeComment(${index})">
-                👍 ${comment.likes}
-            </button>
-
-            <button onclick="dislikeComment(${index})">
-                👎 ${comment.dislikes}
-            </button>
-        </div>
-        `;
-    });
-
-    document.getElementById("comments").innerHTML = html;
+    displayComments();
 }
 
+// Premium
 
-let isPremium =
-localStorage.getItem("premium") === "true";
+function buyPremium(){
 
-function buyPremium() {
-
-    localStorage.setItem("premium", "true");
+    localStorage.setItem(
+        "premium",
+        "true"
+    );
 
     isPremium = true;
 
-    document.getElementById("premiumStatus").innerText =
+    document.getElementById("premiumStatus")
+    .innerText =
     "⭐ Premium User";
 
-    alert("🎉 Premium Activated Successfully!");
+    alert("Premium Activated Successfully!");
 }
 
-// =========================
-// VIDEO DOWNLOADER
-// =========================
+// Download
 
-function downloadVideo() {
-
-    let today = new Date().toDateString();
-
-    let lastDay =
-    localStorage.getItem("downloadDay");
-
-    let count =
-    parseInt(localStorage.getItem("downloadCount")) || 0;
-
-    if (lastDay !== today) {
-        count = 0;
-        localStorage.setItem("downloadDay", today);
-    }
-
-    if (!isPremium && count >= 1) {
-
-        alert(
-            "Free users can download only 1 video per day. Upgrade to Premium."
-        );
-
-        return;
-    }
-
-    count++;
-
-    localStorage.setItem(
-        "downloadCount",
-        count
-    );
+function downloadVideo(){
 
     let downloads =
-    JSON.parse(
-        localStorage.getItem("downloads")
-    ) || [];
+    JSON.parse(localStorage.getItem("downloads"))
+    || [];
 
     downloads.push(
-        "Video Downloaded - " +
+        "Downloaded on " +
         new Date().toLocaleString()
     );
 
@@ -148,41 +152,58 @@ function downloadVideo() {
 
     showDownloads();
 
-    alert("✅ Video Downloaded Successfully!");
+    alert("Video Download Started!");
 }
 
-function showDownloads() {
+function showDownloads(){
 
     let downloads =
-    JSON.parse(
-        localStorage.getItem("downloads")
-    ) || [];
+    JSON.parse(localStorage.getItem("downloads"))
+    || [];
 
-    let html = "";
+    let html="";
 
-    downloads.forEach(item => {
+    downloads.forEach(item=>{
         html += `<li>${item}</li>`;
     });
 
-    document.getElementById(
-        "downloadsList"
-    ).innerHTML = html;
+    document.getElementById("downloadsList")
+    .innerHTML = html;
 }
 
+// Dark Mode
 
-window.onload = function () {
+function toggleDarkMode(){
+
+    document.body.classList.toggle("dark");
+
+    localStorage.setItem(
+        "darkMode",
+        document.body.classList.contains("dark")
+    );
+}
+
+// Load Page
+
+window.onload = function(){
 
     displayComments();
 
     showDownloads();
 
-    if (
-        localStorage.getItem("premium") === "true"
-    ) {
+    if(isPremium){
 
         document.getElementById(
             "premiumStatus"
-        ).innerText = "⭐ Premium User";
+        ).innerText =
+        "⭐ Premium User";
+    }
+
+    if(
+        localStorage.getItem("darkMode")
+        === "true"
+    ){
+        document.body.classList.add("dark");
     }
 };
-console.log("Script Loaded Sucessfully");
+
