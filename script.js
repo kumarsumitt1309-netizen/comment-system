@@ -1,7 +1,6 @@
+
 let comments =
-json.parse(localstorage.getitem("comments")) [];
-
-
+JSON.parse(localStorage.getItem("comments")) || [];
 function addComment() {
 
     const username =
@@ -61,7 +60,7 @@ function displayComments(){
 function likeComment(index){
     comments[index].likes++;
 
-    localstroage.setitem("comments",JSON.stringify(comments)
+    localstroage.setItem("comments",JSON.stringify(comments)
     );
     displaycomments();
 }
@@ -69,7 +68,7 @@ function likeComment(index){
 function dislikeComment(index){
     comments[index].dislikes++;
 
-    localstorage.setitem("comments",JSON.stringify(comments)
+    localstorage.setItem("comments",JSON.stringify(comments)
     );
     displaycomments();
 }
