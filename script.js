@@ -1,4 +1,5 @@
-let comments = [];
+let comments =
+json.parse(localstorage.getitem("comments")) [];
 
 
 function addComment() {
@@ -20,7 +21,8 @@ function addComment() {
         likes: 0,
         dislikes: 0
     });
-
+localstorage.setitem("comments,JSON.STRINGIFY(COMMENTS)
+);
     document.getElementById("username").value = "";
     document.getElementById("commentInput").value = "";
 
@@ -58,12 +60,18 @@ function displayComments(){
 
 function likeComment(index){
     comments[index].likes++;
-    displayComments();
+
+    localstroage.setitem("comments",JSON.stringify(comments)
+    );
+    displaycomments();
 }
 
 function dislikeComment(index){
     comments[index].dislikes++;
-    displayComments();
+
+    localstorage.setitem("comments",JSON.stringify(comments)
+    );
+    displaycomments();
 }
 
 
@@ -148,3 +156,6 @@ video.addEventListener(
         }
     }
 );
+window.onload = function(){
+    displaycomments();
+};
