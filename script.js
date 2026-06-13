@@ -1,14 +1,7 @@
-
 let comments =
 JSON.parse(localStorage.getItem("comments")) || [];
 
-let currentPlan =
-localStorage.getItem("plan") || "Free";
-
-let watchLimit =
-parseInt(localStorage.getItem("watchLimit")) || 5;
-
-
+// COMMENTS
 
 function addComment() {
 
@@ -24,8 +17,8 @@ function addComment() {
     }
 
     comments.push({
-        username: username,
-        text: text,
+        username,
+        text,
         likes: 0,
         dislikes: 0,
         date: new Date().toLocaleString()
@@ -38,12 +31,8 @@ function addComment() {
 
     displayComments();
 
-    document.getElementById(
-        "commentInput"
-    ).value = "";
+    document.getElementById("commentInput").value = "";
 }
-
-
 
 function displayComments() {
 
@@ -53,13 +42,9 @@ function displayComments() {
 
         html += `
         <div class="comment">
-
             <h4>${comment.username}</h4>
-
             <p>${comment.text}</p>
-
             <small>${comment.date}</small>
-
             <br><br>
 
             <button onclick="likeComment(${index})">
@@ -73,16 +58,13 @@ function displayComments() {
             <button onclick="deleteComment(${index})">
                 🗑 Delete
             </button>
-
         </div>
         `;
     });
 
-    document.getElementById(
-        "comments"
-    ).innerHTML = html;
+    document.getElementById("comments").innerHTML =
+    html;
 }
-
 
 function likeComment(index) {
 
@@ -95,7 +77,6 @@ function likeComment(index) {
 
     displayComments();
 }
-
 
 function dislikeComment(index) {
 
@@ -113,8 +94,6 @@ function dislikeComment(index) {
     displayComments();
 }
 
-
-
 function deleteComment(index) {
 
     comments.splice(index, 1);
@@ -127,39 +106,54 @@ function deleteComment(index) {
     displayComments();
 }
 
+// DEMO PAYMENT
 
-function upgradePlan(plan, price, minutes) {
+function demoPayment(plan, amount, minutes) {
 
-    localStorage.setItem(
-        "plan",
-        plan
+    let confirmPay = confirm(
+        `Plan: ${plan}
+Amount: ₹${amount}
+
+Proceed Payment?`
     );
 
-    localStorage.setItem(
-        "watchLimit",
-        minutes
-    );
+    if (!confirmPay) return;
 
-    currentPlan = plan;
-    watchLimit = minutes;
+    setTimeout(() => {
 
-    document.getElementById(
-        "premiumStatus"
-    ).innerText =
-    `Current Plan: ${plan}`;
+        localStorage.setItem(
+            "plan",
+            plan
+        );
 
-    alert(
-        `Payment Successful!
+        localStorage.setItem(
+            "watchLimit",
+            minutes
+        );
+
+        document.getElementById(
+            "premiumStatus"
+        ).innerText =
+        `Current Plan: ${plan}`;
+
+        let invoice =
+        "INV" + Date.now();
+
+        alert(
+            `Payment Successful
 
 Plan: ${plan}
-Amount: ₹${price}
+Amount: ₹${amount}
 
-Invoice Generated
+Invoice: ${invoice}
+
 Email Notification Sent`
-    );
+        );
+
+    }, 1000);
 }
 
-
+// DOWNLOAD
 
 function downloadVideo() {
 
@@ -169,7 +163,7 @@ function downloadVideo() {
     if (plan === "Free") {
 
         alert(
-            "Free users cannot download videos. Upgrade your plan."
+            "Upgrade your plan to download videos."
         );
 
         return;
@@ -192,9 +186,8 @@ function downloadVideo() {
 
     showDownloads();
 
-    alert("Video Download Started!");
+    alert("Video Download Started");
 }
-
 
 function showDownloads() {
 
@@ -214,6 +207,7 @@ function showDownloads() {
     ).innerHTML = html;
 }
 
+// DARK MODE
 
 function toggleDarkMode() {
 
@@ -229,24 +223,13 @@ function toggleDarkMode() {
     );
 }
 
-
+// PAGE LOAD
 
 window.onload = function () {
 
     displayComments();
 
     showDownloads();
-
-    const savedPlan =
-    localStorage.getItem("plan");
-
-    if (savedPlan) {
-
-        document.getElementById(
-            "premiumStatus"
-        ).innerText =
-        `Current Plan: ${savedPlan}`;
-    }
 
     if (
         localStorage.getItem(
@@ -256,6 +239,17 @@ window.onload = function () {
         document.body.classList.add(
             "dark"
         );
+    }
+
+    const plan =
+    localStorage.getItem("plan");
+
+    if (plan) {
+
+        document.getElementById(
+            "premiumStatus"
+        ).innerText =
+        `Current Plan: ${plan}`;
     }
 
     const video =
