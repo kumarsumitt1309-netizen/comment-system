@@ -302,3 +302,63 @@ function demoPayment(plan, price, minutes) {
         "\nPrice: ₹" + price
     );
 }
+function verifyRegion() {
+
+    const state =
+    document.getElementById("stateInput")
+    .value.trim().toLowerCase();
+
+    const southStates = [
+        "tamil nadu",
+        "kerala",
+        "karnataka",
+        "andhra pradesh",
+        "telangana"
+    ];
+
+    const hour = new Date().getHours();
+
+    
+
+    if (
+        southStates.includes(state) &&
+        hour >= 10 &&
+        hour < 12
+    ) {
+        document.body.classList.remove("dark");
+
+        alert(
+            "Light Theme Applied\n\nSouth India + 10AM-12PM"
+        );
+
+    } else {
+
+        document.body.classList.add("dark");
+
+        alert(
+            "Dark Theme Applied"
+        );
+    }
+
+   
+
+    let otp =
+    Math.floor(
+        100000 + Math.random() * 900000
+    );
+
+    if (southStates.includes(state)) {
+
+        document.getElementById(
+            "authResult"
+        ).innerHTML =
+        "📧 Email OTP Sent: <b>" + otp + "</b>";
+
+    } else {
+
+        document.getElementById(
+            "authResult"
+        ).innerHTML =
+        "📱 Mobile OTP Sent: <b>" + otp + "</b>";
+    }
+}
