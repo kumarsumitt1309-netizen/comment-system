@@ -422,3 +422,9 @@ function verifyRegion() {
         "📱 Mobile OTP Sent: <b>" + otp + "</b>";
     }
 }
+function upgradePlan(planName, price, minutes) {
+    document.getElementById("premiumStatus").innerHTML =
+        "Current Plan: " + planName;
+
+    alert("Upgraded to " + planName + " Plan");
+}
