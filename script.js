@@ -1,12 +1,16 @@
+
 let comments =
 JSON.parse(localStorage.getItem("comments")) || [];
 
-let isPremium =
-localStorage.getItem("premium") === "true";
+let currentPlan =
+localStorage.getItem("plan") || "Free";
 
-// Comment System
+let watchLimit =
+parseInt(localStorage.getItem("watchLimit")) || 5;
 
-function addComment(){
+
+
+function addComment() {
 
     const username =
     document.getElementById("username").value.trim();
@@ -14,17 +18,17 @@ function addComment(){
     const text =
     document.getElementById("commentInput").value.trim();
 
-    if(username === "" || text === ""){
+    if (username === "" || text === "") {
         alert("Enter name and comment");
         return;
     }
 
     comments.push({
-        username,
-        text,
-        likes:0,
-        dislikes:0,
-        date:new Date().toLocaleString()
+        username: username,
+        text: text,
+        likes: 0,
+        dislikes: 0,
+        date: new Date().toLocaleString()
     });
 
     localStorage.setItem(
@@ -34,14 +38,18 @@ function addComment(){
 
     displayComments();
 
-    document.getElementById("commentInput").value="";
+    document.getElementById(
+        "commentInput"
+    ).value = "";
 }
 
-function displayComments(){
 
-    let html="";
 
-    comments.forEach((comment,index)=>{
+function displayComments() {
+
+    let html = "";
+
+    comments.forEach((comment, index) => {
 
         html += `
         <div class="comment">
@@ -70,11 +78,13 @@ function displayComments(){
         `;
     });
 
-    document.getElementById("comments").innerHTML =
-    html;
+    document.getElementById(
+        "comments"
+    ).innerHTML = html;
 }
 
-function likeComment(index){
+
+function likeComment(index) {
 
     comments[index].likes++;
 
@@ -86,12 +96,13 @@ function likeComment(index){
     displayComments();
 }
 
-function dislikeComment(index){
+
+function dislikeComment(index) {
 
     comments[index].dislikes++;
 
-    if(comments[index].dislikes >= 2){
-        comments.splice(index,1);
+    if (comments[index].dislikes >= 2) {
+        comments.splice(index, 1);
     }
 
     localStorage.setItem(
@@ -102,9 +113,11 @@ function dislikeComment(index){
     displayComments();
 }
 
-function deleteComment(index){
 
-    comments.splice(index,1);
+
+function deleteComment(index) {
+
+    comments.splice(index, 1);
 
     localStorage.setItem(
         "comments",
@@ -114,31 +127,58 @@ function deleteComment(index){
     displayComments();
 }
 
-// Premium
 
-function buyPremium(){
+function upgradePlan(plan, price, minutes) {
 
     localStorage.setItem(
-        "premium",
-        "true"
+        "plan",
+        plan
     );
 
-    isPremium = true;
+    localStorage.setItem(
+        "watchLimit",
+        minutes
+    );
 
-    document.getElementById("premiumStatus")
-    .innerText =
-    "⭐ Premium User";
+    currentPlan = plan;
+    watchLimit = minutes;
 
-    alert("Premium Activated Successfully!");
+    document.getElementById(
+        "premiumStatus"
+    ).innerText =
+    `Current Plan: ${plan}`;
+
+    alert(
+        `Payment Successful!
+
+Plan: ${plan}
+Amount: ₹${price}
+
+Invoice Generated
+Email Notification Sent`
+    );
 }
 
-// Download
 
-function downloadVideo(){
+
+function downloadVideo() {
+
+    const plan =
+    localStorage.getItem("plan") || "Free";
+
+    if (plan === "Free") {
+
+        alert(
+            "Free users cannot download videos. Upgrade your plan."
+        );
+
+        return;
+    }
 
     let downloads =
-    JSON.parse(localStorage.getItem("downloads"))
-    || [];
+    JSON.parse(
+        localStorage.getItem("downloads")
+    ) || [];
 
     downloads.push(
         "Downloaded on " +
@@ -155,55 +195,100 @@ function downloadVideo(){
     alert("Video Download Started!");
 }
 
-function showDownloads(){
+
+function showDownloads() {
 
     let downloads =
-    JSON.parse(localStorage.getItem("downloads"))
-    || [];
+    JSON.parse(
+        localStorage.getItem("downloads")
+    ) || [];
 
-    let html="";
+    let html = "";
 
-    downloads.forEach(item=>{
+    downloads.forEach(item => {
         html += `<li>${item}</li>`;
     });
 
-    document.getElementById("downloadsList")
-    .innerHTML = html;
+    document.getElementById(
+        "downloadsList"
+    ).innerHTML = html;
 }
 
-// Dark Mode
 
-function toggleDarkMode(){
+function toggleDarkMode() {
 
-    document.body.classList.toggle("dark");
+    document.body.classList.toggle(
+        "dark"
+    );
 
     localStorage.setItem(
         "darkMode",
-        document.body.classList.contains("dark")
+        document.body.classList.contains(
+            "dark"
+        )
     );
 }
 
-// Load Page
 
-window.onload = function(){
+
+window.onload = function () {
 
     displayComments();
 
     showDownloads();
 
-    if(isPremium){
+    const savedPlan =
+    localStorage.getItem("plan");
+
+    if (savedPlan) {
 
         document.getElementById(
             "premiumStatus"
         ).innerText =
-        "⭐ Premium User";
+        `Current Plan: ${savedPlan}`;
     }
 
-    if(
-        localStorage.getItem("darkMode")
-        === "true"
-    ){
-        document.body.classList.add("dark");
+    if (
+        localStorage.getItem(
+            "darkMode"
+        ) === "true"
+    ) {
+        document.body.classList.add(
+            "dark"
+        );
+    }
+
+    const video =
+    document.getElementById(
+        "videoPlayer"
+    );
+
+    if (video) {
+
+        video.addEventListener(
+            "timeupdate",
+            function () {
+
+                const limit =
+                parseInt(
+                    localStorage.getItem(
+                        "watchLimit"
+                    )
+                ) || 5;
+
+                if (
+                    limit !== -1 &&
+                    video.currentTime >=
+                    limit * 60
+                ) {
+
+                    video.pause();
+
+                    alert(
+                        "Watch limit reached. Upgrade your plan."
+                    );
+                }
+            }
+        );
     }
 };
-
