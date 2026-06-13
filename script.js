@@ -286,3 +286,19 @@ window.onload = function () {
         );
     }
 };
+function demoPayment(plan, price, minutes) {
+
+    alert("Payment Successful ✅");
+
+    localStorage.setItem("plan", plan);
+    localStorage.setItem("minutes", minutes);
+
+    document.getElementById("premiumStatus").innerText =
+        "Current Plan: " + plan;
+
+    alert(
+        "Invoice Generated\n\n" +
+        "Plan: " + plan +
+        "\nPrice: ₹" + price
+    );
+}
