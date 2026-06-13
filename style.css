@@ -50,6 +50,13 @@ button{
     background:#333;
     color:white;
 }
-
+#otpResult{
+    font-weight:bold;
+    margin-top:15px;
+    color:green;
+}
+.dark #otpResult{
+    color:lightgreen;
+}
 
 
