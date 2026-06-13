@@ -3,53 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comment System + Video Downloader</title>
-
+    <title>Video Comment System</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="container">
+<div class="container">
 
-        <h1>Comment System</h1>
+    <h1>🎥 Video Comment System</h1>
 
-        <textarea
-            id="commentInput"
-            placeholder="Write your comment..."
-            rows="4"
-            cols="50"></textarea>
+    <video width="700" controls>
+        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+        Your browser does not support video.
+    </video>
 
-        <br><br>
+    <br><br>
 
-        <button onclick="addComment()">
-            Post Comment
-        </button>
+    <button onclick="downloadVideo()">
+        ⬇️ Download Video
+    </button>
 
-        <div id="comments"></div>
+    <button onclick="buyPremium()">
+        ⭐ Upgrade Premium
+    </button>
 
-        <hr>
+    <button onclick="toggleDarkMode()">
+        🌙 Dark Mode
+    </button>
 
-        <h1>premium Downloader</h1>
+    <p id="premiumStatus">Free User</p>
 
-        <button onclick="downloadVideo()">
-            Download Video
-        </button>
+    <h3>My Downloads</h3>
+    <ul id="downloadsList"></ul>
 
-        <button onclick="buyPremium()">
-            Upgrade Premium
-        </button>
+    <hr>
 
-        <p id="premiumStatus">
-            Free User
-        </p>
+    <h2>Comments</h2>
 
-        <h3>My Downloads</h3>
+    <input
+        type="text"
+        id="username"
+        placeholder="Enter your name">
 
-        <ul id="downloadsList"></ul>
+    <br><br>
 
-    </div>
+    <textarea
+        id="commentInput"
+        placeholder="Write a comment"></textarea>
 
-    <script src="script.js"></script>
+    <br><br>
+
+    <button onclick="addComment()">
+        Post Comment
+    </button>
+
+    <div id="comments"></div>
+
+</div>
+
+<script src="script.js"></script>
 
 </body>
 </html>
+
